@@ -3,7 +3,7 @@ FROM cgr.dev/chainguard/go:latest as build
 ENV GO111MODULE=on \
     CGO_ENABLED=0 \
     GOOS=linux \
-    GOARCH=amd64
+    GOARCH=arm64
 
 WORKDIR /app
 
