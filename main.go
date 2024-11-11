@@ -11,31 +11,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
-	"github.com/panutrytobeprogrammer/expense-wallet/config"
 	"github.com/panutrytobeprogrammer/expense-wallet/framework"
 	"github.com/panutrytobeprogrammer/expense-wallet/libs"
 	"github.com/panutrytobeprogrammer/expense-wallet/middleware"
 	"github.com/panutrytobeprogrammer/expense-wallet/wallet"
 	"go.uber.org/zap"
 )
-
-var cfg config.Config
-
-func init() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		err := godotenv.Load("../.env")
-		if err != nil {
-			log.Printf("please consider environment variables: %s\n", err)
-		}
-	}
-
-	err = cfg.ParseFromEnv()
-	if err != nil {
-		log.Fatalf("unable to parse ennvironment variables: %e", err)
-	}
-}
 
 func main() {
 	logger, err := zap.NewProduction()
@@ -48,7 +29,7 @@ func main() {
 		}
 	}()
 
-	postgresDb := libs.ConnectPostgreSQL(cfg.DB.Host, cfg.DB.User, cfg.DB.Pass, cfg.DB.Name)
+	postgresDb := libs.ConnectPostgreSQL(os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
 	h := wallet.NewWalletHandler(logger, postgresDb)
 
 	app := framework.Ginapp()
