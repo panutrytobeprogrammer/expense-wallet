@@ -29,7 +29,7 @@ func main() {
 		}
 	}()
 
-	postgresDb := libs.ConnectPostgreSQL(os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
+	postgresDb := libs.ConnectPostgreSQL(os.Getenv("DB_HOST"), os.Getenv("DB_PORT"),os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
 	h := wallet.NewWalletHandler(logger, postgresDb)
 
 	app := framework.Ginapp()
